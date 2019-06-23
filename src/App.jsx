@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 
+import './styles/App.module.scss';
+
 // Events
 import { USER_CONNECTED, LOGOUT } from './events';
 
@@ -9,12 +11,13 @@ import { USER_CONNECTED, LOGOUT } from './events';
 import Layout from './components/Layout';
 
 //  Views
-import { LoginView } from './views';
+import { LoginView, DashboardView } from './views';
 
 // URL
 const socketUrl = 'http://localhost:3231';
 
 const App = () => {
+  let routes = null;
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -40,9 +43,23 @@ const App = () => {
     initSocket();
   }, []);
 
-  return (
-    <BrowserRouter>
-      <Layout />
+  if (user) {
+    routes = (
+      <Layout user={user} handleLogout={handleLogout}>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <DashboardView {...props} socket={socket} user={user} />
+            )}
+          />
+          <Redirect to="/" />
+        </Switch>
+      </Layout>
+    );
+  } else {
+    routes = (
       <Switch>
         <Route
           exact
@@ -53,8 +70,10 @@ const App = () => {
         />
         <Redirect to="/" />
       </Switch>
-    </BrowserRouter>
-  );
+    );
+  }
+
+  return <BrowserRouter>{routes}</BrowserRouter>;
 };
 
 export default App;
