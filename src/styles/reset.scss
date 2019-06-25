@@ -1,0 +1,10 @@
+@import './colors';
+
+body {
+  margin: 0;
+  background-color: $bg;
+}
+
+* {
+  font-family: monospace;
+}

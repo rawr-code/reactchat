@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Events
 import {
@@ -6,7 +7,9 @@ import {
   MESSAGE_SENT,
   TYPING,
   COMMUNITY_CHAT,
-  PRIVATE_MESSAGE
+  PRIVATE_MESSAGE,
+  USER_CONNECTED,
+  USER_DISCONNECTED
 } from '../../events';
 
 // Organisms
@@ -15,12 +18,20 @@ import { Chats, ChatRoom } from '../../components/Organisms';
 class Dashboard extends Component {
   state = {
     chats: [],
-    activeChat: null
+    activeChat: null,
+    users: []
   };
 
   componentDidMount() {
     const { socket } = this.props;
     this.initSocket(socket);
+  }
+
+  componentWillMount() {
+    const { socket } = this.props;
+    socket.off(PRIVATE_MESSAGE);
+    socket.off(USER_CONNECTED);
+    socket.off(USER_DISCONNECTED);
   }
 
   initSocket = socket => {
@@ -31,6 +42,10 @@ class Dashboard extends Component {
       socket.emit(COMMUNITY_CHAT, this.resetChat);
     });
     socket.emit(PRIVATE_MESSAGE, { reciever: 'Emma', sender: user.name });
+    socket.on(USER_CONNECTED, users => {
+      const newUsers = Object.values(users).filter(u => u.id !== user.id);
+      this.setState({ users: newUsers });
+    });
   };
 
   sendOpenPrivateMessage = reciever => {
@@ -108,11 +123,11 @@ class Dashboard extends Component {
 
   render() {
     const { user } = this.props;
-    const { chats, activeChat } = this.state;
-    let chatRoom = null;
+    const { chats, activeChat, users } = this.state;
+    let ChatRoomComponent = null;
 
     if (activeChat !== null) {
-      chatRoom = (
+      ChatRoomComponent = () => (
         <ChatRoom
           name={activeChat.name}
           user={user}
@@ -123,24 +138,51 @@ class Dashboard extends Component {
         />
       );
     } else {
-      chatRoom = (
+      ChatRoomComponent = () => (
         <div>
-          <h3>Choose a chat!</h3>
+          <h3>Escoge un chat!</h3>
         </div>
       );
     }
 
     return (
-      <div>
-        <p>Dashboard</p>
-        <Chats
-          chats={chats}
-          activeChat={activeChat}
-          setActiveChat={this.setActiveChat}
-          onSendPrivateMessage={this.sendOpenPrivateMessage}
+      <Switch>
+        <Route
+          path="/chats"
+          render={props => (
+            <>
+              <Chats
+                {...props}
+                title="Chats"
+                data={chats}
+                activeChat={activeChat}
+                setActiveChat={this.setActiveChat}
+                onSendPrivateMessage={this.sendOpenPrivateMessage}
+              />
+              <ChatRoomComponent />
+            </>
+          )}
         />
-        {chatRoom}
-      </div>
+        <Route
+          path="/users"
+          render={props => (
+            <>
+              <Chats
+                {...props}
+                title="Users"
+                data={users}
+                activeChat={activeChat}
+                setActiveChat={this.setActiveChat}
+                onSendPrivateMessage={this.sendOpenPrivateMessage}
+              />
+              <ChatRoomComponent />
+            </>
+          )}
+        />
+        <Route component={ChatRoomComponent} />
+
+        <Redirect to="/" />
+      </Switch>
     );
   }
 }

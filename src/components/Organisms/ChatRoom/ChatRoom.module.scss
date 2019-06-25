@@ -1,0 +1,31 @@
+@import '../../../styles/colors';
+
+.root {
+  width: 100%;
+  position: relative;
+}
+
+.header {
+  padding: 24px;
+  max-height: 21px;
+  border-bottom: 1px solid $BorderLight;
+}
+
+.roomName {
+  margin: 0;
+}
+
+.messagesContainer {
+  padding: 24px;
+  height: calc(100vh - 48px - 72px - 25px - 86px);
+  overflow-y: auto;
+}
+
+.messageWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.typing {
+  min-height: 25px;
+}

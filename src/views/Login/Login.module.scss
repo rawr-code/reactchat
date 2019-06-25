@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+}
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.input {
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  font-size: 20px;
+}
+.button {
+  margin: 20px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+.error {
+  color: red;
+}

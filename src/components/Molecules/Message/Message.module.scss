@@ -1,0 +1,30 @@
+@import '../../../styles/colors';
+
+.root {
+  text-align: left;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.message {
+  background-color: $Primary;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 20px;
+}
+
+.messageDetails {
+  margin: 20px;
+}
+
+.sender {
+  margin-right: 8px;
+  color: $PrimaryLight;
+}
+.time {
+  font-weight: bold;
+  color: $PrimaryLight;
+}

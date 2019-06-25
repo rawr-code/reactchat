@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 
-import './styles/App.module.scss';
-
 // Events
 import { USER_CONNECTED, LOGOUT } from './events';
 
@@ -46,16 +44,8 @@ const App = () => {
   if (user) {
     routes = (
       <Layout user={user} handleLogout={handleLogout}>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={props => (
-              <DashboardView {...props} socket={socket} user={user} />
-            )}
-          />
-          <Redirect to="/" />
-        </Switch>
+        <DashboardView socket={socket} user={user} />
+        <Redirect to="/chats" />
       </Layout>
     );
   } else {

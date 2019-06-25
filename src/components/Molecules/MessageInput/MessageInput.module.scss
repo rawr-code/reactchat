@@ -1,0 +1,39 @@
+@import '../../../styles/colors';
+
+.root {
+  background-color: #fff;
+  padding: 32px;
+  min-height: 22px;
+  max-height: 22px;
+  height: 100%;
+  position: relative;
+  padding-right: 100px;
+}
+
+.form {
+  margin-top: 4px;
+}
+
+.input {
+  border: none;
+  background: none;
+  font-size: 16px;
+  outline: none;
+  width: 100%;
+}
+
+.button {
+  color: $Secondary;
+  border: none;
+  background: none;
+  font-size: 40px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 24px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

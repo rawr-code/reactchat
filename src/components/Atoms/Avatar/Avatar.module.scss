@@ -1,0 +1,12 @@
+@import '../../../styles/colors';
+
+.root {
+  text-align: center;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50px;
+  background-color: $AvatarBG;
+}

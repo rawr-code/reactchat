@@ -1,0 +1,48 @@
+@import '../../../styles/colors';
+
+%IconLinkSelected {
+  &::before {
+    content: '';
+    height: 100%;
+    width: 4px;
+    background-color: $Secondary;
+    position: absolute;
+    left: 0;
+  }
+  background-color: $PrimaryLight;
+}
+
+.root {
+  min-width: 80px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $Primary;
+}
+
+.logo {
+  margin: 21px 0;
+}
+
+.iconLinkWrapper {
+  flex: 1;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: $TextPrimary;
+  padding: 16px 0;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    @extend %IconLinkSelected;
+  }
+}
+
+.iconLinkSelected {
+  @extend %IconLinkSelected;
+}
