@@ -32,6 +32,7 @@ const Chats = ({ data, activeChat, setActiveChat, onSendPrivateMessage }) => {
           <button type="submit">crear</button>
         </form>
       </div> */}
+
       <div>
         {data.map(item => {
           const { messages } = item;
