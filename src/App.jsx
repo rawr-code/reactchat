@@ -12,7 +12,7 @@ import Layout from './components/Layout';
 import { LoginView, DashboardView } from './views';
 
 // URL
-const socketUrl = 'http://localhost:3231';
+const socketUrl = '/';
 
 const App = () => {
   let routes = null;
