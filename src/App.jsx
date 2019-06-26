@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 
 // Events
-import { USER_CONNECTED, LOGOUT } from './events';
+import { USER_CONNECTED, LOGOUT, VERIFY_USER } from './events';
 
 //  Layout
 import Layout from './components/Layout';
@@ -22,9 +22,23 @@ const App = () => {
   const initSocket = () => {
     const newSocket = io(socketUrl);
     newSocket.on('connect', () => {
-      console.log('Connected');
+      if (user) {
+        reconnect(socket);
+      } else {
+        console.log('Connected');
+      }
     });
     setSocket(newSocket);
+  };
+
+  const reconnect = socket => {
+    socket.emit(VERIFY_USER, user.name, ({ isUser, user }) => {
+      if (isUser) {
+        setUser(null);
+      } else {
+        setUser(user);
+      }
+    });
   };
 
   const handleUser = userData => {
